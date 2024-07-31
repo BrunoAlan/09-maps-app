@@ -9,7 +9,7 @@ export default function RootLayout() {
     >
       <Stack.Screen name='index' />
       <Stack.Screen name='maps' />
-      <Stack.Screen name='permissions' />
+      <Stack.Screen name='loading' />
     </Stack>
   );
 }
