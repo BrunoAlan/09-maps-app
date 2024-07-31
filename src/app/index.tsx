@@ -1,15 +1,5 @@
-import { Text, View } from "react-native";
-
-export default function Index() {
-  return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Text>Edit app/index.tsx to edit this screen.</Text>
-    </View>
-  );
-}
+import PermissionsScreen from '../presentation/screens/permissions/PermissionsScreen';
+const index = () => {
+  return <PermissionsScreen />;
+};
+export default index;
