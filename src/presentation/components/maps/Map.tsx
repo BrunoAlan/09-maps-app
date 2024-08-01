@@ -1,7 +1,7 @@
 import { Location } from '@/src/infrastructure/interfaces/location';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import FAB from '../ui/FAB';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useLocationStore } from '../../store/location/useLocationStore';
 
 interface Props {
@@ -12,7 +12,8 @@ interface Props {
 const Map = ({ showUserLocation = false, initialLocation }: Props) => {
   const mapRef = useRef<MapView>();
   const cameraLocation = useRef<Location>(initialLocation);
-  const { getLocation } = useLocationStore();
+  const { getLocation, watchLocation, clearWatchLocation, lastKnowLocation } =
+    useLocationStore();
 
   const moveCameraToLocation = (location: Location) => {
     if (!mapRef.current) return;
@@ -29,6 +30,19 @@ const Map = ({ showUserLocation = false, initialLocation }: Props) => {
     if (!location) return;
     moveCameraToLocation(location);
   };
+
+  useEffect(() => {
+    watchLocation();
+    return () => {
+      clearWatchLocation();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (lastKnowLocation) {
+      moveCameraToLocation(lastKnowLocation);
+    }
+  }, [lastKnowLocation]);
 
   return (
     <>
