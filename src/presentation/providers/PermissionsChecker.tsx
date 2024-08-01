@@ -7,7 +7,6 @@ const PermissionsChecker = ({ children }: PropsWithChildren) => {
   const { locationStatus, checkLocationPermission } = usePermissionStore();
   const router = useRouter();
 
-  console.log(locationStatus);
   useEffect(() => {
     if (locationStatus === 'granted') {
       router.replace('/maps');
