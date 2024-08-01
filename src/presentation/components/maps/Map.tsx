@@ -1,7 +1,7 @@
 import { Location } from '@/src/infrastructure/interfaces/location';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import FAB from '../ui/FAB';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useLocationStore } from '../../store/location/useLocationStore';
 
 interface Props {
@@ -12,6 +12,7 @@ interface Props {
 const Map = ({ showUserLocation = false, initialLocation }: Props) => {
   const mapRef = useRef<MapView>();
   const cameraLocation = useRef<Location>(initialLocation);
+  const [isFollowingUser, setIsFollowingUser] = useState(true);
   const { getLocation, watchLocation, clearWatchLocation, lastKnowLocation } =
     useLocationStore();
 
@@ -39,10 +40,10 @@ const Map = ({ showUserLocation = false, initialLocation }: Props) => {
   }, []);
 
   useEffect(() => {
-    if (lastKnowLocation) {
+    if (lastKnowLocation && isFollowingUser) {
       moveCameraToLocation(lastKnowLocation);
     }
-  }, [lastKnowLocation]);
+  }, [lastKnowLocation, isFollowingUser]);
 
   return (
     <>
@@ -59,6 +60,7 @@ const Map = ({ showUserLocation = false, initialLocation }: Props) => {
         showsScale
         style={{ flex: 1 }}
         provider={PROVIDER_GOOGLE}
+        onTouchStart={() => setIsFollowingUser(false)}
       >
         <Marker
           coordinate={{
@@ -70,6 +72,15 @@ const Map = ({ showUserLocation = false, initialLocation }: Props) => {
         />
       </MapView>
       <FAB
+        iconName={isFollowingUser ? 'walk-outline' : 'accessibility-outline'}
+        onPress={() => setIsFollowingUser(!isFollowingUser)}
+        style={{
+          position: 'absolute',
+          bottom: 80,
+          right: 20,
+        }}
+      />
+      <FAB
         iconName='compass-outline'
         onPress={moveToCurrentLocation}
         style={{
@@ -77,7 +88,7 @@ const Map = ({ showUserLocation = false, initialLocation }: Props) => {
           bottom: 20,
           right: 20,
         }}
-      ></FAB>
+      />
     </>
   );
 };
