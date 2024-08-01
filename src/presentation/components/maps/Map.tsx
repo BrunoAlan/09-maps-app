@@ -1,5 +1,5 @@
 import { Location } from '@/src/infrastructure/interfaces/location';
-import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
+import MapView, { Marker, Polyline, PROVIDER_GOOGLE } from 'react-native-maps';
 import FAB from '../ui/FAB';
 import { useEffect, useRef, useState } from 'react';
 import { useLocationStore } from '../../store/location/useLocationStore';
@@ -13,9 +13,15 @@ const Map = ({ showUserLocation = false, initialLocation }: Props) => {
   const mapRef = useRef<MapView>();
   const cameraLocation = useRef<Location>(initialLocation);
   const [isFollowingUser, setIsFollowingUser] = useState(true);
-  const { getLocation, watchLocation, clearWatchLocation, lastKnowLocation } =
-    useLocationStore();
+  const [isShowingPolyline, setIsShowingPolyline] = useState(true);
 
+  const {
+    getLocation,
+    watchLocation,
+    clearWatchLocation,
+    lastKnowLocation,
+    userLocationsList,
+  } = useLocationStore();
   const moveCameraToLocation = (location: Location) => {
     if (!mapRef.current) return;
     mapRef.current.animateCamera({
@@ -62,6 +68,9 @@ const Map = ({ showUserLocation = false, initialLocation }: Props) => {
         provider={PROVIDER_GOOGLE}
         onTouchStart={() => setIsFollowingUser(false)}
       >
+        {isShowingPolyline && (
+          <Polyline coordinates={userLocationsList} strokeWidth={5} />
+        )}
         <Marker
           coordinate={{
             latitude: 37.78825,
@@ -71,6 +80,15 @@ const Map = ({ showUserLocation = false, initialLocation }: Props) => {
           description='This is a marker example'
         />
       </MapView>
+      <FAB
+        iconName={isShowingPolyline ? 'eye-off-outline' : 'eye-outline'}
+        onPress={() => setIsShowingPolyline(!isShowingPolyline)}
+        style={{
+          position: 'absolute',
+          bottom: 140,
+          right: 20,
+        }}
+      />
       <FAB
         iconName={isFollowingUser ? 'walk-outline' : 'accessibility-outline'}
         onPress={() => setIsFollowingUser(!isFollowingUser)}
