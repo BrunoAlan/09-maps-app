@@ -8,7 +8,7 @@ import { LocationSubscription } from 'expo-location/build/Location.types';
 import { create } from 'zustand';
 interface LocationState {
   lastKnowLocation: Location | null;
-  userLocations: Location[];
+  userLocationsList: Location[];
   locationSuscription?: LocationSubscription | null;
   getLocation: () => Promise<Location>;
   watchLocation: () => Promise<void>;
@@ -17,7 +17,7 @@ interface LocationState {
 
 export const useLocationStore = create<LocationState>()((set, get) => ({
   lastKnowLocation: null,
-  userLocations: [],
+  userLocationsList: [],
   locationSuscription: null,
   getLocation: async () => {
     const location = await getCurrentLocation();
@@ -27,7 +27,9 @@ export const useLocationStore = create<LocationState>()((set, get) => ({
   watchLocation: async () => {
     const locationSuscription = await watchCurrentLocation((location) => {
       set({ lastKnowLocation: location });
-      set((state) => ({ userLocations: [...state.userLocations, location] }));
+      set((state) => ({
+        userLocationsList: [...state.userLocationsList, location],
+      }));
     });
     set({ locationSuscription });
   },
