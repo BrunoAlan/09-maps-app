@@ -6,3 +6,23 @@ export const getCurrentLocation = async (): Promise<LocationType> => {
   });
   return { latitude: coords.latitude, longitude: coords.longitude };
 };
+
+export const watchCurrentLocation = async (
+  locationCallback: (location: LocationType) => LocationType
+) => {
+  const locationSuscription = await Location.watchPositionAsync(
+    {},
+    (newLocation) =>
+      locationCallback({
+        latitude: newLocation.coords.latitude,
+        longitude: newLocation.coords.longitude,
+      })
+  );
+  return locationSuscription;
+};
+
+export const clearWatchLocation = (
+  locationSuscription: Location.LocationSubscription
+) => {
+  locationSuscription.remove();
+};
