@@ -14,7 +14,7 @@
     },
     "ios": {
       "config": {
-        "googleMapsApiKey": "AIzaSyCC-nscoQeZHc5fVzkXddalpKkxG7qp_fg"
+        "googleMapsApiKey": ""
       },
       "infoPlist": {
         "NSLocationAlwaysAndWhenInUseUsageDescription": "Allow $(PRODUCT_NAME) to use your location",
