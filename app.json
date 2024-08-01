@@ -13,25 +13,29 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
+      "config": {
+        "googleMapsApiKey": "AIzaSyCC-nscoQeZHc5fVzkXddalpKkxG7qp_fg"
+      },
       "infoPlist": {
         "NSLocationAlwaysAndWhenInUseUsageDescription": "Allow $(PRODUCT_NAME) to use your location",
         "NSLocationAlwaysUsageDescription": "Allow $(PRODUCT_NAME) to use your location",
         "NSLocationWhenInUseUsageDescription": "Allow $(PRODUCT_NAME) to use your location"
-        
       },
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.alanbruno.mapsApp"
     },
     "android": {
-      "permissions":[
+      "permissions": [
         "android.permission.ACCESS_BACKGROUND_LOCATION",
         "android.permission.ACCESS_COARSE_LOCATION",
         "android.permission.ACCESS_FINE_LOCATION",
-        "android.permission.ACCESS_MEDIA_LOCATION"     
+        "android.permission.ACCESS_MEDIA_LOCATION"
       ],
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.alanbruno.mapsApp"
     },
     "web": {
       "bundler": "metro",
@@ -43,6 +47,14 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "2b3acc44-f87d-4335-9829-47ec4cecd15e"
+      }
     }
   }
 }
