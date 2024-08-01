@@ -1,5 +1,6 @@
-import PermissionsScreen from '../presentation/screens/permissions/PermissionsScreen';
-const index = () => {
-  return <PermissionsScreen />;
+import LoadingScreen from '../presentation/screens/loading/LoadingScreen';
+
+const loading = () => {
+  return <LoadingScreen />;
 };
-export default index;
+export default loading;

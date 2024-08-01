@@ -11,7 +11,7 @@ export default function RootLayout() {
       >
         <Stack.Screen name='index' />
         <Stack.Screen name='maps' />
-        <Stack.Screen name='loading' />
+        <Stack.Screen name='permission' />
       </Stack>
     </PermissionsChecker>
   );

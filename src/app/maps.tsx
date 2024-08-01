@@ -1,15 +1,29 @@
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
+import Map from '../presentation/components/maps/Map';
+import LoadingScreen from '../presentation/screens/loading/LoadingScreen';
+import { useLocationStore } from '../presentation/store/location/useLocationStore';
+import { useEffect } from 'react';
 
 export default function Index() {
+  const { lastKnowLocation, getLocation } = useLocationStore();
+
+  useEffect(() => {
+    if (lastKnowLocation === null) {
+      getLocation();
+    }
+  }, []);
+
+  if (lastKnowLocation === null) {
+    return <LoadingScreen />;
+  }
+
   return (
     <View
       style={{
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
       }}
     >
-      <Text>maps</Text>
+      <Map showUserLocation={true} initialLocation={lastKnowLocation} />
     </View>
   );
 }
