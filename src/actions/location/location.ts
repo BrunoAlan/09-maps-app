@@ -8,10 +8,10 @@ export const getCurrentLocation = async (): Promise<LocationType> => {
 };
 
 export const watchCurrentLocation = async (
-  locationCallback: (location: LocationType) => LocationType
+  locationCallback: (location: LocationType) => void
 ) => {
   const locationSuscription = await Location.watchPositionAsync(
-    {},
+    { accuracy: Location.Accuracy.Highest },
     (newLocation) =>
       locationCallback({
         latitude: newLocation.coords.latitude,
